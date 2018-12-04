@@ -1,0 +1,46 @@
+    1  python
+    2  exit
+    3  python
+    4  ifconfig
+    5  ssh btserver@192.168.1.101 "/sbin/ifconfig | grep flag | cut -d: -f1"
+    6  ssh btserver@192.168.1.101 "/sbin/ifconfig | grep flag | cut -d: -f1"
+    7  pyrhonm
+    8  pyrhon
+    9  python
+   10  ssh-keygen 
+   11  ssh-copy-id -i /root/.ssh/id_rsa.pub btserver@192.168.1.101
+   12  ssh btserver@192.168.1.101 "/sbin/ifconfig | grep flag | cut -d: -f1"
+   13  sudo locale-gen "en_US.UTF-8"
+   14  sudo dpkg-reconfigure locales
+   15  sudo echo "LC_ALL=\"en_US.UTF-8\"" >> /etc/default/locale
+   16  locale-gen "en_US.UTF-8"
+   17  dpkg-reconfigure locales
+   18  exit
+   19  ssh-copy-id id=/root/.ssh/id_rsa.pub btserver@192.168.1.101
+   20  ping 192.168.1.101
+   21  ssh-copy-id id /root/.ssh/id_rsa.pub btserver@192.168.1.101
+   22  ssh-copy-id -i /root/.ssh/id_rsa.pub btserver@192.168.1.101
+   23  ssh-copy-id -i /root/.ssh/id_rsa.pub btserver@192.168.1.102
+   24  ssh-copy-id -i /root/.ssh/id_rsa.pub btserver@192.168.1.103
+   25  ssh 192.168.1.102
+   26  ssh btserver@192.168.1.102
+   27  ssh btserver@192.168.1.103
+   28  exit
+   29  scp btserver@192.168.1.102:./package.box ./
+   30  ls
+   31  scp ./package.box paul@172.17.0.1:./
+   32  pip install celery-with-redis
+   33  celery -A tasks worker --loglevel=debug
+   34  vi tasks.py
+   35  vim tasks.py
+   36  ls
+   37  mv /app/extends/tasks.py .
+   38  ls
+   39  celery -A tasks worker --loglevel=debug
+   40  mv /app/extends/tasks.py .
+   41  celery -A tasks worker --loglevel=debug
+   42  celery -A tasks worker --loglevel=debug
+   43  exit
+   44  cd app/extends/
+   45  celery -A tasks worker --loglevel=debug
+   46  history > /app/extends/history.txt

@@ -1,0 +1,89 @@
+{% extends "base_site.html" %}
+
+{% block title %}V-Host{% endblock title %}
+
+{% block stylesheets %}
+{{ super() }}
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="right_col" role="main">
+  <div class="">
+    <div class="page-title">
+      <div class="title_left">
+        <h3>V-Hosts <small>Some examples to get you started</small></h3>
+      </div>
+    </div>
+
+    <div class="clearfix"></div>
+
+    <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+          <div class="x_title">
+            <h2>Table design <small>Custom design</small></h2>
+            <ul class="nav navbar-right panel_toolbox">
+              <li><a href="/profiles/vhost_editor"><button class="btn btn-primary" type="button"> Add + </button></a></li>
+            </ul>
+            <div class="clearfix"></div>
+          </div>
+          <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+            
+          </div>
+          <div class="x_content">
+
+            <p>Add class <code>bulk_action</code> to table for bulk actions options on row select</p>
+
+            <div class="table-responsive">
+              <table class="table table-striped jambo_table bulk_action">
+                <thead>
+                  <tr class="headings">
+                    <th>
+                      <!-- input type="checkbox" id="check-all" class="flat" -->
+                    </th>
+                    <th class="column-title">Name </th>
+                    <th class="column-title">IP </th>
+                    <th class="column-title">Sudoer </th>
+                    <th class="column-title">NIC </th>
+                    <th class="column-title">Status </th>
+                    <th class="column-title no-link last"><span class="nobr">Action</span>
+                    </th>
+                    <th class="bulk-actions" colspan="7">
+                      <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                    </th>
+                  </tr>
+                </thead>
+
+                <tbody>
+	{% for vh in vhosts %}
+                  <tr class="even pointer">
+                    <td class="a-center ">
+                      <!-- input type="checkbox" class="flat" name="table_records" -->
+                    </td>
+                    <td class=" ">{{ vh.name }}</td>
+                    <td class=" ">{{ vh.ip }}</td>
+                    <td class=" ">{{ vh.sudoer }}</td>
+                    <td class=" ">{{ vh.nic }}</td>
+                    <td class=" ">{% if vh.disabled==True %}disabled{% else %}active{% endif %}</td>
+                    <td class=" last">
+                      <a href="/profiles/vhost_editor?name={{ vh.name }}">edit</a>  |  
+                      <a href="/profiles/vhost_switch?name={{ vh.name }}" onclick="return confirm('{% if vh.disabled==True %}Enable{% else %}Disable{% endif %} V-Host {{ vh.name }} ?')" >{% if vh.disabled==True %}enable{% else %}disable{% endif %}</a>
+                    </td>
+                  </tr>
+	{% endfor %}
+                </tbody>
+              </table>
+            </div>
+						
+					
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block javascripts %}
+{{ super()}}
+{% endblock javascripts %}

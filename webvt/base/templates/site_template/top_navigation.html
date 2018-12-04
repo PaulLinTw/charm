@@ -1,0 +1,90 @@
+<div class="nav_menu">
+  <nav>
+    <div class="nav toggle">
+      <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+    </div>
+    <ul class="nav navbar-nav navbar-right">
+      <li class="">
+        <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+          <img src="/static/images/img.jpg" alt="">{{ current_user.username }}
+          <span class=" fa fa-angle-down"></span>
+        </a>
+        <ul class="dropdown-menu dropdown-usermenu pull-right">
+          <li><a href="javascript:;"> Profile</a></li>
+          <li>
+            <a href="javascript:;">
+              <span class="badge bg-red pull-right">50%</span>
+              <span>Settings</span>
+            </a>
+          </li>
+          <li><a href="javascript:;">Help</a></li>
+          <li><a href="/logout"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+        </ul>
+      </li>
+<!--
+      <li role="presentation" class="dropdown">
+        <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+          <i class="fa fa-tasks"></i>
+        {% if tasks|length > 0 %}
+          <span class="badge bg-green">{{ tasks|length }}</span>
+        {% endif %}
+        </a>
+
+        <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+	    {% for task in tasks %}
+	   <li>
+            <a>
+              <span>{{ task.tid }}@{{ task.pid }}<i class="fa fa-{{ task.icon }}"></i></span>
+              <span>{{ task.url }}</span>
+            </a>
+          </li>
+	    {% endfor %}
+        {% if tasks|length > 0 %}
+          <li>
+            <div class="text-center">
+              <a href="/general/tasks">
+                <strong>See All Tasks</strong>
+                <i class="fa fa-angle-right"></i>
+              </a>
+            </div>
+          </li>
+        {% endif %}
+        </ul>
+      </li>
+-->
+      <li role="presentation" class="dropdown">
+	{% with messages = get_flashed_messages(with_categories=true) %}
+        <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+          <i class="fa fa-envelope-o"></i>
+        {% if messages|length > 0 %}
+          <span class="badge bg-green">{{ messages|length }}</span>
+        {% endif %}
+        </a>
+
+	  {% if messages %}
+        <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+	    <!--ul class=flashes -->
+	    {% for category, message in messages %}
+	   <li>
+            <a>
+              <span><i class="fa fa-{{ category }}"></i></span>
+              <span>{{ message }}</span>
+            </a>
+          </li>
+	    {% endfor %}
+	    <!--/ul -->
+          <li>
+            <div class="text-center">
+              <a>
+                <strong>See All Messages</strong>
+                <i class="fa fa-angle-right"></i>
+              </a>
+            </div>
+          </li>
+	  {% endif %}
+       {% endwith %}
+        </ul>
+      </li>
+    </ul>
+  </nav>
+</div>

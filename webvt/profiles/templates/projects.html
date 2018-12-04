@@ -1,0 +1,81 @@
+{% extends "base_site.html" %}
+
+{% block title %}Projects{% endblock title %}
+
+{% block stylesheets %}
+{{ super() }}
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="right_col" role="main">
+  <div class="">
+    <div class="page-title">
+      <div class="title_left">
+        <h3>Project Management <small>Some examples to get you started</small></h3>
+      </div>
+    </div>
+
+    <div class="clearfix"></div>
+
+    <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+          <div class="x_title">
+            <h2>Table design <small>Custom design</small></h2>
+            <ul class="nav navbar-right panel_toolbox">
+              <li><a href="/profiles/project_editor"><button class="btn btn-primary" type="button"> Add + </button></a></li>
+            </ul>
+            <div class="clearfix"></div>
+          </div>
+          <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+            
+          </div>
+          <div class="x_content">
+            <div class="table-responsive">
+              <table class="table table-striped jambo_table bulk_action">
+                <thead>
+                  <tr class="headings">
+                    <th>
+                      <!-- input type="checkbox" id="check-all" class="flat" -->
+                    </th>
+                    <th class="column-title">Name </th>
+                    <th class="column-title">Network Segment </th>
+                    <th class="column-title">NIC Type </th>
+                    <th class="column-title">V-Hosts </th>
+                    <th class="column-title">VMs </th>
+                    <th class="column-title no-link last"><span class="nobr">Action</span>
+                    </th>
+                  </tr>
+                </thead>
+
+                <tbody>
+	{% for prj in projects %}
+                  <tr class="even pointer">
+                    <td class="a-center ">
+                    </td>
+                    <td class=" ">{{ prj.global.project }}</td>
+                    <td class=" ">{{ prj.global.network }}x</td>
+                    <td class=" ">{{ prj.global.nettype }}</td>
+                    <td class=" ">{% for hst in prj.global.hosts %}{{ hst.host }}<br>{% endfor %}</td>
+                    <td class=" ">{% for vm in prj.vms %}{{ vm.name }}<br>{% endfor %}</td>
+                    <td class=" last">
+                      <a href="/profiles/project_editor?name={{ prj.name }}">edit</a>
+                    </td>
+                  </tr>
+	{% endfor %}
+                </tbody>
+              </table>
+            </div>
+						
+					
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block javascripts %}
+{{ super()}}
+{% endblock javascripts %}

@@ -1,0 +1,18 @@
+{% extends "base_site.html" %}
+
+{% block title %}Overview{% endblock title %}
+
+{% block stylesheets %}
+{{ super() }}
+{% endblock stylesheets %}
+
+{% block content %}
+refresh_rate={{ config.refresh_rate }}
+log_rotate={{ config.log_rotate }}
+keyfile={{ config.keyfile }}
+vagrantpath={{ config.vagrantpath }}
+{% endblock content %}
+
+{% block javascripts %}
+{{ super()}}
+{% endblock javascripts %}

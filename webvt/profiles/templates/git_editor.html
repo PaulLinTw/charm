@@ -1,0 +1,71 @@
+{% extends "base_site.html" %}
+
+{% block title %}Edit Git{% endblock title %}
+
+{% block stylesheets %}
+{{ super() }}
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="right_col" role="main">
+  <div class="">
+    <div class="page-title">
+      <div class="title_left">
+        <h3>Git Repositry Editor</h3>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+          <div class="x_title">
+            <h2><small>edit data of the git repo {{ gitdata.name }}</small></h2>
+            <div class="clearfix"></div>
+          </div>
+          <div class="x_content">
+            <br />
+            <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" action="/profiles/git_{% if vhostdata!=None %}update{% else %}add{% endif %}" method="post">
+
+              <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12" >Name <span class="required">*</span></label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <input type="text" name="name" required="required" class="form-control col-md-7 col-xs-12" value="{{ gitdata.name }}" {% if gitdata!=None %}readonly{% endif %} >
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12" >Site URL <span class="required">*</span>
+                </label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <input type="text" name="site" required="required" class="form-control col-md-7 col-xs-12" value="{{ gitdata.site }}">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12">Branch Tag <span class="required">*</span></label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <input type="text" name="tag" required="required" class="form-control col-md-7 col-xs-12" value="{{ gitdata.tag }}">
+                </div>
+              </div>
+              <div class="form-group">
+                  <input name="disabled" type="hidden" value="{{ gitdata.disabled }}" >
+              </div>
+              <div class="ln_solid"></div>
+              <div class="form-group">
+                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                  <button class="btn btn-primary" type="reset" onclick="javascript:window.history.back();">Cancel</button>
+                  <button class="btn btn-primary" type="reset">Reset</button>
+                  <button type="submit" class="btn btn-success">Submit</button>
+                </div>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block javascripts %}
+  {{ super()}}
+{% endblock javascripts %}

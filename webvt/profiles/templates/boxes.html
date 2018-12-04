@@ -1,0 +1,93 @@
+{% extends "base_site.html" %}
+
+{% block title %}Boxes{% endblock title %}
+
+{% block stylesheets %}
+{{ super() }}
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="right_col" role="main">
+  <div class="">
+    <div class="page-title">
+      <div class="title_left">
+        <h3>Box Management</h3>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+{% for vh in vhosts %}
+
+    <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+          <div class="x_title">
+            <h2>{{ vh.name }} <small>{{ vh.ip }}</small></h2>
+            <ul class="nav navbar-right panel_toolbox">
+              <li><a {% if vh.disabled!=True %}href="/profiles/box_reload?name={{ vh.name }}"{% endif %}><button {% if vh.disabled==True %}disabled=true{% endif %} class="btn btn-primary" type="button"> reload </button></a></li>
+            </ul>
+            <div class="clearfix"></div>
+          </div>
+          <div class="x_content">
+            <div class="table-responsive">
+              <table class="table table-striped jambo_table bulk_action">
+                <thead>
+                  <tr class="headings">
+                    <th {% if vh.disabled==True %}bgcolor="grey"{% endif %} class="column-title">Name </th>
+                    <th {% if vh.disabled==True %}bgcolor="grey"{% endif %} class="column-title">Provider </th>
+                    <th {% if vh.disabled==True %}bgcolor="grey"{% endif %} class="column-title">Version </th>
+                    <th {% if vh.disabled==True %}bgcolor="grey"{% endif %} class="column-title">Copy To </th>
+                    <th {% if vh.disabled==True %}bgcolor="grey"{% endif %} class="column-title">Delete </th>
+                    <th {% if vh.disabled==True %}bgcolor="grey"{% endif %} class="column-title no-link last"><span class="nobr">Status </span>
+                  </tr>
+                </thead>
+                <tbody>
+	{% for boxvh in boxes if boxvh.name == vh.name %}
+             {% for bx in boxvh.boxes %}
+                  <tr class="even pointer">
+                    <td class=" ">{{ bx.name }}</td>
+                    <td class=" ">{{ bx.provider }}</td>
+                    <td class=" ">{{ bx.tag }}</td>
+                    <td class=" ">
+                        <select class="form-control col-md-2 col-xs-12" name="copyto" onchange="javascript:handleCopytoSelect(this)"
+                        {% if vh.disabled==True %}disabled=true{% endif %}>
+                          <option value="">Copy To ..</option>
+                   {% for filtervh in onlynames if filtervh.vhost != boxvh.name and bx.name not in filtervh.boxes %}
+                          <option value="{{ bx.name }},{{ boxvh.name }},{{ filtervh.vhost }}">{{ filtervh.vhost }}</option>
+                   {% endfor %}
+                       </select>
+                    </td>
+                    <td class=" "><a {% if vh.disabled!=True %}href="/profiles/box_delete?vhost={{ boxvh.name }}&&box={{ bx.name }}" onclick="return confirm('Are you sure to DELETE box {{ bx.name }} in V-Host {{ boxvh.name }}?')"{% endif %}><button {% if vh.disabled==True %}disabled=true{% endif %} class="btn btn-primary" type="button"> Delete </button></a></td>
+                    <td class=" last">
+                      <a href="#">async status</a>
+                    </td>
+                  </tr>
+             {% endfor %}
+	{% endfor %}
+                </tbody>
+              </table>
+            </div>	
+          </div>
+        </div>
+      </div>
+    </div>
+{% endfor %}
+  </div>
+</div>
+{% endblock content %}
+
+{% block javascripts %}
+{{ super()}}
+<script type="text/javascript">
+function handleCopytoSelect(elm)
+{
+   ary=elm.value.split(",")
+   ans=confirm('Are you sure to COPY box '+ary[0]+' FROM '+ary[1]+' TO '+ary[2]+'?')
+   if (ans==true) {
+     window.location = "/profiles/box_copyto?box="+ary[0]+'&&from='+ary[1]+'&&to='+ary[2];
+   }
+  else {
+     elm.value="";
+  }
+}
+</script>
+{% endblock javascripts %}

@@ -1,0 +1,110 @@
+{% extends "base_site.html" %}
+
+{% block title %}Task Panel{% endblock title %}
+
+{% block stylesheets %}
+{{ super() }}
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="right_col" role="main">
+  <div class="">
+    <!-- div class="page-title">
+      <div class="title_left">
+        <h1>Tasks <small>Some examples to get you started</small></h1>
+      </div>
+    </div -->
+
+    <div class="clearfix"></div>
+
+    <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+          <div class="x_title">
+            <h2>Tasks <small>Custom design</small></h2>
+            <!--ul class="nav navbar-right panel_toolbox">
+              <li><a href="/profiles/vhost_editor"><button class="btn btn-primary" type="button"> Add + </button></a></li>
+            </ul -->
+            <div class="clearfix"></div>
+          </div>
+          <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+            
+          </div>
+          <div class="x_content">
+            <div class="table-responsive">
+              <table class="table table-striped jambo_table bulk_action">
+                <thead>
+                  <tr class="headings">
+                    <th class="column-title">Description <br>Name <br>Id </th>
+                    <th class="column-title">Status </th>
+                    <th class="column-title">State </th>
+                    <th class="column-title no-link last"><span class="nobr">Action</span>
+                    </th>
+                  </tr>
+                </thead>
+
+                <tbody id="task_list">
+                <!--
+	{% for tsk in tasks %}
+                  <tr class="even pointer">
+                    <td class=" ">{{ tsk.desc }}<br>{{ tsk.fn }}<br>{{ tsk.tid }}</td>
+                    <td class=" ">{{ tsk.status }}</td>
+                    <td class=" ">{{ tsk.state }}</td>
+                    <td class=" last">
+                      <a href="/panel/task_revoke?id={{ tsk.tid }}" onclick="return confirm('Are you sure to REVOKE task {{ tsk.fn }} [{{ tsk.tid }}] ?')" >Revoke</a>
+                    </td>
+                  </tr>
+	{% endfor %}
+	            -->
+                </tbody>
+              </table>
+            </div>
+						
+					
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block javascripts %}
+{{ super()}}
+  <script type="text/javascript">
+  var tasks = JSON.parse('{{ tasks|tojson }}')
+  var i;
+  for (i = 0; i < tasks.length; i++) {
+      task=tasks[i]
+      $("#task_list").append( "<tr id='"+task.tid+"'><td>"+task.desc+"<br>"+task.fn+"<br>"+task.tid+"</td><td class='status'>"+task.status+"</td><td class='state'>"+task.state+"</td><td>revoke</td></tr>");
+  };
+
+  (function() {
+  var status = $('#task_list'),
+    poll = function() {
+      $.ajax({
+        url: '/general/get_tasks',
+        dataType: 'json',
+        type: 'get',
+        success: function(data) { // check if available
+          var i;
+          for (i = 0; i < data.length; i++) {
+              tsk=data[i];
+              tag_id="#"+tsk.tid
+              $(tag_id).find("td.status").text(tsk.status);
+              $(tag_id).find("td.state").text(tsk.state);
+          };
+        },
+        error: function() { // error logging
+          console.log('Error!');
+        }
+      });
+    },
+    pollInterval = setInterval(function() { // run function every 2000 ms
+      poll();
+      }, 10000);
+    poll(); // also run function on init
+})();
+
+</script>
+{% endblock javascripts %}

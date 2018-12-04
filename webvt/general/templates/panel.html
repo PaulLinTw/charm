@@ -1,0 +1,228 @@
+{% extends "base_site.html" %}
+
+{% block title %}Dashboard{% endblock title %}
+
+{% block stylesheets %}
+{{ super() }}
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="right_col" role="main">
+  <div class="">
+    <div class="page-title">
+      <div class="title_left">
+        <h1>Control Panel <small>refreshes every 60 seconds</small></h1>
+      </div>
+    </div>
+
+    <div class="clearfix"></div>
+
+    <div class="row">
+	{% for met in metrics %}
+      <div class="col-md-6 col-xs-12">
+        <div class="x_panel">
+          <div class="x_title">
+            <h2>{{ met.vhost }} <small>{{ met.ip }}</small></h2>
+            <div class="clearfix"></div>
+          </div>
+          <div class="x_content">
+                <div >
+                    <h2><small>resource status</small></h2>
+                    <p style="color:red;"><small>{{ met.error }}</small></p>
+                    <div class="clearfix"></div>
+                </div>
+              <div class="dashboard-widget-content">
+                <div class="col-md-3" align="center">
+                    <h4>cpu</h4>
+                    <div class="col-xs-4">
+                        <span class="chart" data-percent="{{ met.cpu }}">
+                            <span class="percent">{{ met.cpu }}</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-3" align="center">
+                    <h4>swap</h4>
+                    <div class="col-xs-4">
+                        <span class="chart" data-percent="{{ met.swap }}">
+                            <span class="percent">{{ met.swap }}</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-3" align="center">
+                    <h4>memory</h4>
+                    <div class="col-xs-4">
+                        <span id="test" class="chart" data-percent="{{ met.free }}">
+                            <span class="percent">{{ met.free }}</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="col-md-12" align="center">
+                        <h4>disk usage</h4>
+                        <div class="col-xs-4" id="disk_{{ met.vhost }}">
+                            <span class="chart" data-percent="0">
+                                <span class="percent" ></span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <select class="col-md-12" name="device_{{ met.vhost }}" onchange='javascript:handleDeviceSelect(this,"{{ met.vhost }}")'>
+                          <option value="">devices</option>
+                        {% for dev in met.disk %}
+                          <option value="{{ dev.usage }}"
+                                  {% if dev.device==met.disk[0].device %} selected {% endif %}
+                          >{{ dev.device }}</option>
+                        {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+          <div>
+            {% for gs in global_status %}
+                {% if gs.vhost == met.vhost %}
+                <h2><small>vagrant status</small></h2>
+                <p style="color:red;"><small>{{ gs.error }}</small></p>
+                {% endif %}
+            {% endfor %}
+                <div class="clearfix"></div>
+          </div>
+            {% for gs in global_status %}
+                {% if gs.vhost in met.vhost %}
+                    {% for prj in gs.status %}
+            <div class="col-md-12" style="color:black;border-color:#808080;border-width:1px;border-style:solid;padding:5px;margin:3px;">
+                <div class="col-md-3"
+                     data-toggle="modal"
+                     data-target="#ProjectModal"
+                     onclick='javascript:handleProjectModalPopup("{{ met.vhost }}","{{ prj.project }}","{{ prj.path }}")'
+                     onmouseover="" style="cursor: pointer;">
+                    <h4><i class="fa fa-folder-open"></i> {{ prj.project }} </h4>
+                </div>
+                <div class="col-md-9">
+                        {% for vs in prj.vms %}
+                    <div class="col-md-4"
+                         style="cursor: pointer;{% if vs.status=='poweroff' %}color:darkgray;border-color:#A9A9A9{% elif vs.status=='aborted' %}color:darkolivegreen;border-color:#8556B2F{% else %}color:green;border-color:#008000{% endif %};"
+                         data-toggle="modal"
+                         data-target="#VMModal"
+                         onclick='javascript:handleVMModalPopup("{{ met.vhost }}","{{ prj.project }}","{{ prj.path }}","{{ vs.vm }}")' >
+                        <h4><b><i class="fa fa-desktop"></i> {{ vs.vm }} </b><br>192.168.1.x</h4>
+                    </div>
+                        {% endfor %}
+                </div>
+            </div>
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+	{% endfor %}
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="VMModal" tabindex="-1" role="dialog" aria-labelledby="VMModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4>Action to vm <b><span class="vm">elk_dev</span></b> of project <b><span class="project">elk_dev</span></b> on vhost <b><span class="vhost">dsc-01</span></b>:</h4>
+        <span class="path"></span>
+      </div>
+      <div class="modal-body">
+        <button type="button" class="btn btn-secondary" onclick="javascript:handleAction(this);">Up</button>
+        <button type="button" class="btn btn-secondary" onclick="javascript:handleAction(this);">Halt</button>
+        <button type="button" class="btn btn-secondary" onclick="javascript:handleAction(this);">Provision</button>
+        <button type="button" class="btn btn-secondary" onclick="javascript:handleAction(this);">Reload</button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="ProjectModal" tabindex="-1" role="dialog" aria-labelledby="ProjectModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4>Action to project <b><span class="project">elk_dev</span></b> on vhost <b><span class="vhost">dsc-01</span></b>:</h4>
+        <span class="path"></span>
+      </div>
+      <div class="modal-body">
+        <button type="button" class="btn btn-secondary" onclick="javascript:handleAction(this);">Up</button>
+        <button type="button" class="btn btn-secondary" onclick="javascript:handleAction(this);">Halt</button>
+        <button type="button" class="btn btn-secondary" onclick="javascript:handleAction(this);">Provision</button>
+        <button type="button" class="btn btn-secondary" onclick="javascript:handleAction(this);">Reload</button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block javascripts %}
+{{ super()}}
+    <!-- easy-pie-chart -->
+    <script src="/static/vendors/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js"></script>
+    <!-- Chart.js -->
+    <script src="/static/vendors/Chart.js/dist/Chart.min.js"></script>
+    <!-- gauge.js -->
+    <script src="/static/vendors/gauge.js/dist/gauge.min.js"></script>
+
+    <script type="text/javascript">
+    $('.chart').easyPieChart({
+        barColor: function (percent) {
+           return (percent < 50 ? '#5cb85c' : percent < 85 ? '#f0ad4e' : '#cb3935');
+        },
+        //size: 100,
+        //scaleLength: 7,
+        //trackWidth: 5,
+        //lineWidth: 10,
+
+        onStep: function (from, to, percent) {
+           $(this.el).find('.percent').text(Math.round(percent));
+        }
+    });
+    function handleDeviceSelect(elm,vhost)
+    {
+        // Locate top parent object then find chart to update
+        $(elm).parent().parent().find("span.chart").data('easyPieChart').update(elm.value);
+        //pie_id="#disk_usage_"+vhost
+        //$(pie_id).data('easyPieChart').update(elm.value);
+        //label_id="#disk_percent_"+vhost;
+        //$(label_id).text(elm.value);
+    }
+    function handleVMModalPopup(vhost, project, path, vm)
+    {
+        $("#VMModal").find("span.project")[0].innerHTML = project
+        $("#VMModal").find("span.vhost")[0].innerHTML = vhost
+        $("#VMModal").find("span.path")[0].innerHTML = path
+        $("#VMModal").find("span.vm")[0].innerHTML = vm
+    }
+    function handleProjectModalPopup(vhost, project, path)
+    {
+        $("#ProjectModal").find("span.project")[0].innerHTML = project
+        $("#ProjectModal").find("span.vhost")[0].innerHTML = vhost
+        $("#ProjectModal").find("span.path")[0].innerHTML = path
+    }
+    function handleAction(elm)
+    {
+        action = $(elm)[0].innerHTML;
+        prj = $(elm).parent().parent().find("span.project")[0].innerHTML;
+        vhost = $(elm).parent().parent().find("span.vhost")[0].innerHTML;
+        path = $(elm).parent().parent().find("span.path")[0].innerHTML;
+        if ($(elm).parent().parent().find("span.vm").length == 0){
+            scope = "project"
+            vm = "";
+        }
+        else {
+            scope = "vm"
+            vm = $(elm).parent().parent().find("span.vm")[0].innerHTML;
+        };
+        wl = "/general/actions?action="+action+"&&project="+prj+"&&path="+path+"&&vhost="+vhost+"&&vm="+vm+"&&scope="+scope
+        //alert("window.location = "+wl);
+        window.location = wl
+    }
+    </script>
+{% endblock javascripts %}

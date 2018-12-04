@@ -1,0 +1,185 @@
+{% extends "base_site.html" %}
+
+{% block title %}關於展示{% endblock title %}
+
+{% block stylesheets %}
+  {{ super() }}
+{% endblock stylesheets %}
+
+{% block content %}
+  <div class="right_col" role="main">
+    <div class="">
+      <div class="page-title">
+        <div class="title_left">
+          <h3>關於展示</h3>
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="x_panel">
+            <div class="x_title">
+              <h2>展示需求說明</h2>
+              <ul class="nav navbar-right panel_toolbox">
+                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                </li>
+                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                </li>
+              </ul>
+              <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+              <div class="col-md-12">
+                <h4>
+                <p>資料應用的議題中，命題是最重要的關鍵！</p>
+                <p></p>
+                <p>請參考下圖，一個跨國企業在全球十個國家，四十一個商業據點，銷售多種消費電子產品，每個據點除了以提供實體門市之外，也佈署不同業務性質的網站系統與銷售系統，服務在地消費者，企業總部主要掌握各類產品的開發，也掌握消費者需求的變化趨勢<p>
+                <p><img src='https://i.imgur.com/AF1dg3N.png' alt='Imgur' height="400" width="800"></p>	
+                <p>現在，身為企業總部資訊主管的你，被要求在不影響現有資訊系統運作的前提下，將所有營業據點中大量的客戶活動資訊以及交易資訊，集中蒐集後，提供以下數據應用︰</p>
+					<p>應用於即時統計</p>
+                <ul>
+					<li>企業產品與服務在全球用戶視為最熱門（點擊率最高）、最乏人問津（點擊率最低）、意見及問題反映最多的各項實時排名</li>
+					<li>依產品、國家、據點等，實時統計出各業務通路據點產生的銷售、客訴、退貨的交易紀錄，做成交叉比對報告，提供營業主管線上實時查詢</li>
+                </ul>
+					<p>應用於分析商情</p>
+                <ul>
+					<li>找出各類商品在全球的網站活動與交易的關聯性</li>
+					<li>預測全球網站活動與商品交易的趨勢</li>
+                </ul>
+                <p></p>
+                <p>首先，我們以圖解方式表達上述的功能要求：</p>
+                <p><img src='https://i.imgur.com/0krdsx4.png' alt='Imgur' height="300" width="800"></p>
+                <p>上圖中，有幾個角色出現在企業總部的需求中︰</p>
+                <ul>
+					<li>Application Servers︰座落於全球各地的資訊系統主機，資料的提供者</li>
+					<li>Data Collector︰將座落於總部，負責收攏各地送來的資料</li>
+					<li>Data Processor︰將座落於總部，負責將資料儲存、統計、歸納、分析</li>
+					<li>ODS︰將座落於總部，保存原生數據，以及經過處理的數據</li>
+					<li>Reporter︰將座落於總部，產生適當的圖表與數據，提供業務主管以及企業決策層使用</li>
+                </ul>
+                <p></p>
+                <p>接著，我們將資料被蒐集、被處理、直到被提出附加應用的作業過程，畫出細部流程：</p>
+                <p><img src='https://i.imgur.com/8VAV75X.png' alt='Imgur' height="300" width="800"></p>
+                <p>資料需要在上述流程的每一個步驟中被有效地處置，才能滿足企業總部所提出的需求，我們簡單地描繪每個步驟的功能需求︰</p>
+                <p>收集︰收集的對象是網站活動與交易紀錄，這裡不是抽樣調查，而是完整數據。</p>
+                <p>佇列︰主要處理高並發，保證訪問順利，這就需要大量的資料庫支撐，依靠合理的分流、公有雲等架構方法，保證每一個數據的準確有用。</p>
+                <p>清洗︰採集好數據，肯定不少是重複或是無用的數據，此時需要對數據進行處理，去掉雜訊和無關數據</p>
+                <p>落地︰將這些來自前端的數據導入到集中的大型分布式資料庫，或者分布式存儲集群</p>
+                <p>分析︰這裡是指資料探勘的過程，為了能找出適當的演算法與數據參數</p>
+                <p>建模︰使用選定的演算法處理數據，計算分析然後提取出模型</p>
+                <p>處理︰數據在這裡被使用，例如統計以及預測</p>
+                <p>快取︰存放即時統計的結果，提供給應用系統使用</p>
+                <p>應用︰以圖表的形式，提供資料統計、分析、歸納、關聯以及預測的結果</p>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="x_panel">
+            <div class="x_title">
+              <h2>架構規劃說明</h2>
+              <ul class="nav navbar-right panel_toolbox">
+                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                </li>
+                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                </li>
+              </ul>
+              <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+              <div class="col-md-12">
+                <h4>
+                <p>上述要求中有幾個主要的設計目標：</p>
+                <ul>
+					<li>需要進行分布式資料處理。</li>
+					<li>需要實時數據處理</li>
+					<li>需要高吞吐率</li>
+					<li>需要水平擴展</li>
+                </ul>
+                <p>因此，我們示範以 Kakfa 做為各網站活動流以及交易紀錄接收平台，以 MongoDB 提供資料落地，以 apache Storm  進行分類與統計的作業，再將統計結果實時傳遞給線上實時資料庫 Redis Cluster，供網站報表系統取用，參考以下系統規劃圖：</p>
+                <p><img src='https://i.imgur.com/jvQmKAm.png' alt='Imgur'  height="300" width="800"></p>
+                <p>這樣的規劃具有以下幾點好處：</p>
+                <ul>
+                  <li>異質路網、異質系統快速整合，將既有系統客製化影響降至最低。</li>
+                  <li>可逐步加入離線資訊處理的應用。</li>
+                  <li>不必為交易紀錄或活動流數據量尖峰擔心負載過量而造成平台崩潰。</li>
+                  <li>不用擔心數據被處理前遺失。</li>
+                </ul>
+                </h4>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="x_panel">
+            <div class="x_title">
+              <h2>展示架構說明</h2>
+              <ul class="nav navbar-right panel_toolbox">
+                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                </li>
+                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                </li>
+              </ul>
+              <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+              <div class="col-md-12">
+                <h4>
+                <p>我們將上述系統規劃稍作簡化，嘗試在展示環境中模擬應用案例的系統架構：</p>
+                <p><img src='https://i.imgur.com/65s1rNv.png' alt='Imgur'  height="300" width="800"></p>
+                <p>我們以 python 程序簡化並模擬在應用情境中的幾個任務：</p>
+                <ul>
+                  <li>應用系統群組向 Kafka 發送活動流數據以及交易資料。</li>
+                  <li>Apache Storm 叢集自 Kafka 消費所有訊息，進行分類、統計後，寫入快速查閱資料庫。</li>
+                  <li>Data Analyze Cluster 中. 週期性資料分析作業，包括活動與交易資料關聯分析、聚類以及產出預測模型。</li>
+                  <li>報表主機自快速查閱資料庫查詢實時統計數據，以及使用預測模型產出預測數據，提供報表功能。</li>
+                </ul>
+                <p></p>
+                <p>接下來，我們就來操作這個展示系統吧。</p><a href="/dashboards/ranking">前往展示</a>
+                </h4>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+{% endblock content %}
+
+{% block javascripts %}
+  {{ super()}}
+  <!-- Chart.js -->
+  <script src="{{ url_for('static', filename='vendors/Chart.js/dist/Chart.min.js') }}"></script>
+  <!-- gauge.js -->
+  <script src="{{ url_for('static', filename='vendors/gauge.js/dist/gauge.min.js') }}"></script>
+  <!-- Skycons -->
+  <script src="{{ url_for('static', filename='vendors/skycons/skycons.js') }}"></script>
+  <!-- Flot -->
+  <script src="{{ url_for('static', filename='vendors/Flot/jquery.flot.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendors/Flot/jquery.flot.pie.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendors/Flot/jquery.flot.time.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendors/Flot/jquery.flot.stack.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendors/Flot/jquery.flot.resize.js') }}"></script>
+  <!-- Flot plugins -->
+  <script src="{{ url_for('static', filename='vendors/flot.orderbars/js/jquery.flot.orderBars.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendors/flot-spline/js/jquery.flot.spline.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendors/flot.curvedlines/curvedLines.js') }}"></script>
+  <!-- DateJS -->
+  <script src="{{ url_for('static', filename='vendors/DateJS/build/date.js') }}"></script>
+  <!-- JQVMap -->
+  <script src="{{ url_for('static', filename='vendors/jqvmap/dist/jquery.vmap.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendors/jqvmap/dist/maps/jquery.vmap.world.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendors/jqvmap/examples/js/jquery.vmap.sampledata.js') }}"></script>
+{% endblock javascripts %}

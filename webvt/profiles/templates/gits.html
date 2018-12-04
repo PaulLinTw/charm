@@ -1,0 +1,85 @@
+{% extends "base_site.html" %}
+
+{% block title %}Gits{% endblock title %}
+
+{% block stylesheets %}
+{{ super() }}
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="right_col" role="main">
+  <div class="">
+    <div class="page-title">
+      <div class="title_left">
+        <h3>Resource List<small>git repositries</small></h3>
+      </div>
+    </div>
+
+    <div class="clearfix"></div>
+
+    <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+          <div class="x_title">
+            <h2><small>site list of all resource</small></h2>
+            <ul class="nav navbar-right panel_toolbox">
+              <li><a href="/profiles/git_editor"><button class="btn btn-primary" type="button"> Add + </button></a></li>
+            </ul>
+            <div class="clearfix"></div>
+          </div>
+
+          <div class="x_content">
+
+            <p>Add class <code>bulk_action</code> to table for bulk actions options on row select</p>
+
+            <div class="table-responsive">
+              <table class="table table-striped jambo_table bulk_action">
+                <thead>
+                  <tr class="headings">
+                    <th>
+                      <!-- input type="checkbox" id="check-all" class="flat" -->
+                    </th>
+                    <th class="column-title">Name </th>
+                    <th class="column-title">Site URL </th>
+                    <th class="column-title">Branch Tag </th>
+                    <th class="column-title">Status </th>
+                    <th class="column-title no-link last"><span class="nobr">Action</span>
+                    </th>
+                    <th class="bulk-actions" colspan="7">
+                      <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                    </th>
+                  </tr>
+                </thead>
+
+                <tbody>
+	{% for git in gits %}
+                  <tr class="even pointer">
+                    <td class="a-center ">
+                      <!-- input type="checkbox" class="flat" name="table_records" -->
+                    </td>
+                    <td class=" ">{{ git.name }}</td>
+                    <td class=" ">{{ git.site }}</td>
+                    <td class=" ">{{ git.tag }}</td>
+                    <td class=" ">{% if git.disabled==True %}disabled{% else %}active{% endif %}</td>
+                    <td class=" last">
+                      <a href="/profiles/git_editor?name={{ git.name }}">edit</a>  |  
+                      <a href="/profiles/git_switch?name={{ git.name }}" onclick="return confirm('{% if git.disabled==True %}Enable{% else %}Disable{% endif %} Resource {{ git.name }} ?')" >{% if git.disabled==True %}enable{% else %}disable{% endif %}</a>
+                    </td>
+                  </tr>
+	{% endfor %}
+                </tbody>
+              </table>
+            </div>
+						
+					
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block javascripts %}
+{{ super()}}
+{% endblock javascripts %}

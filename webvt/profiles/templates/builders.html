@@ -1,0 +1,99 @@
+{% extends "base_site.html" %}
+
+{% block title %}Builders{% endblock title %}
+
+{% block stylesheets %}
+{{ super() }}
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="right_col" role="main">
+  <div class="">
+    <div class="page-title">
+      <div class="title_left">
+        <h3>Builder Management <small>Some examples to get you started</small></h3>
+        <ul class="nav navbar-right panel_toolbox">
+           <li><a href="/profiles/builder_reload"><button class="btn btn-primary" type="button"> Reload </button></a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="clearfix"></div>
+
+    <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+          <div class="x_title">
+            <h2>Table design <small>Custom design</small></h2>
+            <ul class="nav navbar-right panel_toolbox">
+              <li><a href="/profiles/builder_editor"><button class="btn btn-primary" type="button"> Add + </button></a></li>
+            </ul>
+            <div class="clearfix"></div>
+          </div>
+          <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+            
+          </div>
+          <div class="x_content">
+            <div class="table-responsive">
+              <table class="table table-striped jambo_table bulk_action">
+                <thead>
+                  <tr class="headings">
+                    <th class="column-title">Title </th>
+                    <th class="column-title">Source </th>
+                    <th class="column-title">Scripts </th>
+                    <th class="column-title">Files </th>
+                    <th class="column-title">Build </th>
+                    <th class="column-title no-link last"><span class="nobr">Action </span>
+                    </th>
+                  </tr>
+                </thead>
+
+                <tbody>
+	{% for spec in builders %}
+                  <tr class="even pointer">
+                    <td class=" ">{{ spec.title }}</td>
+                    <td class=" ">{{ spec.source }}</td>
+                    <td class=" ">{% for script in spec.script %}{{ script }}<br>{% endfor %}</td>
+                    <td class=" ">{% for file in spec.files %}{{ file }}<br>{% endfor %}</td>
+                    <td class=" ">
+                        <select class="form-control col-md-2 col-xs-12" name="buildto" onchange="javascript:handleBuildtoSelect(this)">
+                          <option value="">Build To ..</option>
+                   {% for filtervh in onlynames if spec.title not in filtervh.boxes %}
+                          <option value="{{ spec.title }},{{ filtervh.vhost }}">{{ filtervh.vhost }}</option>
+                   {% endfor %}
+                       </select>
+                    </td>
+                    <td class=" last">
+                      <a href="/profiles/builder_editor?name={{ spec.name }}">edit</a>
+                    </td>
+                  </tr>
+	{% endfor %}
+                </tbody>
+              </table>
+            </div>
+						
+					
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block javascripts %}
+{{ super()}}
+<script type="text/javascript">
+function handleBuildtoSelect(elm)
+{
+   ary=elm.value.split(",")
+   ans=confirm('Are you sure to Build box '+ary[0]+' To '+ary[1]+'?')
+   if (ans==true) {
+     window.location = "/profiles/builder_build?box="+ary[0]+'&&to='+ary[1];
+   }
+  else {
+     elm.value="";
+  }
+}
+</script>
+{% endblock javascripts %}
